@@ -1,0 +1,86 @@
+﻿@model IEnumerable<BeautyBaseFinal.Models.Available>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2 style="color: lightcoral">Слободни термини</h2>
+
+<div style="height:70px">
+    @{
+        if (User.IsInRole("Admin"))
+        {<button id="add-new" onmouseover="over()" onmouseout="out()" style="background-color:lightcoral; border-style:none; border-radius:3px;  text-align:center; color: white; height:50px; width:150px;" onclick="location.href='@Url.Action("Create", "Availables")'">Додади нов термин</button>
+            }
+        }
+
+</div>
+
+<table class="table" id="availableTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.selectedTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date.ToString().Split(' ')[0])
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.selectedTime)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Детали", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Резервирај", "Reserve", new { id = item.Id }) |
+                    
+                    @{
+                        if (User.IsInRole("Admin"))
+                        {
+
+                            <button data-available-id="@item.Id" class="btn-link js-delete">Избриши</button>
+                            
+                        }
+                    }
+                        </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        function over() {
+            document.getElementById("add-new").style.backgroundColor = 'coral';
+        };
+        function out() {
+            document.getElementById("add-new").style.backgroundColor = 'lightcoral';
+        };
+        $(document).ready(function () {
+            var table = $("#availableTable").DataTable();
+            $("#availableTable .js-delete").on("click", function () {
+                var button = $(this);
+                bootbox.confirm("Дали сакате да го избришете овој слободен термин?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Availables1/" + button.attr("data-available-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+            
+    </script>
+}

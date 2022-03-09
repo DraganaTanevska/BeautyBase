@@ -1,0 +1,51 @@
+﻿@model BeautyBaseFinal.Models.Unavailable
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 style="color: lightcoral">Додади забелешка</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date.ToString().Split(' ')[0])
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.selectedTime)
+
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.selectedTime)
+        </dd>
+        </dl>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input style="background-color: lightcoral; color: white;" type="submit" value="Зачувај" class="btn btn-default" />
+            </div>
+        </div>
+</div>
+}
+<div>
+    @Html.ActionLink("Назад", "Index")
+</div>

@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<body style="background-color: #DCDCDC">
+    <div style="height:1000px;">
+        <h1>
+            <span style="color: lightcoral">
+                BeautyBase
+            </span>
+            <span>
+
+                - најдобрата веб апликација за онлајн закажување!
+            </span>
+        </h1>
+        <br />
+        <br />
+        <input id="add-new" onmouseover="over()" onmouseout="out()" style="background-color:lightcoral; border-style:none; border-radius:3px;  text-align:center; color: white; height:50px; width:150px;" type="button" value="Резервирај веднаш!" onclick="location.href='@Url.Action("Index", "Availables")'" />
+        <br />
+        <br />
+        <br />
+        <div>
+            <div style="float: left; width:45%">
+                <img src="https://media.allure.com/photos/60a41dbbab26bbb99a70cf3b/2:1/w_3000,h_1500,c_limit/nail%20salon.jpg" style="height:300px; " />
+            </div>
+            <div style=" float: right; width: 45%; height: 300px;">
+                <br />
+                <br>
+                <b>
+                    <p style="text-align: justify; ">
+                        Нашиот салон нуди врвна услуга според највисоки светски стандарди. Задоволните клиенти се наш највисок приоритет
+                        и мотивација за константно унапредување на целокупното искуство.
+                    </p>
+                </b>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div>
+            <div style="width: 45%; height: 300px; float: left;">
+                <br />
+                <br />
+                <b>
+                    <p style="text-align: justify; ">
+                        BeautyBase ги почитува сите протоколи и мерки пропишани од страна на Владата на Република Северна Македонија. Исто така редовно ја следи
+                        ситуацијата која се однесува на глобалната пандемија и во својот салон имплементира најнови техологии кои имаат за цел да го заштитат здравјето на клиентот.
+                        ВАЖНО: Во салонот во еден термин е присутен само еден клиент, со цел да се спречи ширење на зараза од COVID-19.
+                    </p>
+                </b>
+            </div>
+            <div style="width: 45%; float: right">
+                <img src="https://coronavirus.lacity.org/sites/g/files/wph1886/files/inline-images/five-ways-apr3.png" style="height:300px" />
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    function over() {
+        document.getElementById("add-new").style.backgroundColor = 'coral';
+    };
+    function out() {
+        document.getElementById("add-new").style.backgroundColor = 'lightcoral';
+    }
+</script>

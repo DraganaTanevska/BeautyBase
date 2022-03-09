@@ -1,0 +1,35 @@
+﻿@model BeautyBaseFinal.Models.Available
+
+@{
+    ViewBag.Title = "Reserve";
+}
+<h3 style="color: lightcoral">Дали сте сигурни дека сакате да го резервирате овој термин?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date.ToString().Split(' ')[0])
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.selectedTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.selectedTime)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input style="background-color:lightcoral; color: white;" type="submit" value="Резервирај" class="btn btn-default" /> |
+            @Html.ActionLink("Назад", "Index")
+        </div>
+    }
+</div>

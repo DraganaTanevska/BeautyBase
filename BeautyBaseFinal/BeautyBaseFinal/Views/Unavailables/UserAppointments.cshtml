@@ -1,0 +1,94 @@
+﻿@model IEnumerable<BeautyBaseFinal.Models.Unavailable>
+@{
+    ViewBag.Title = "UserAppointments";
+}
+
+<h2 style="color: lightcoral">Мои термини</h2>
+
+<table class="table" id="myAppTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.selectedTime)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActionTime)
+            </th>
+         
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            string[] selectedDate = item.Date.ToString().Split(' ')[0].Split('.');
+            int selectedDay = Int32.Parse(selectedDate[0]);
+            int selectedMonth = Int32.Parse(selectedDate[1]);
+            int selectedYear = Int32.Parse(selectedDate[2]);
+            int selectedHour = Int32.Parse(item.selectedTime.Split(':')[0]);
+            int selectedMin = Int32.Parse(item.selectedTime.Split(':')[1]);
+            string[] realDate1 = DateTime.Now.ToString("g").Split(' ');
+            string[] realDate = realDate1[0].Split('.');
+            int realDay = Int32.Parse(realDate[0]);
+            int realMonth = Int32.Parse(realDate[1]);
+            int realYear = Int32.Parse(realDate[2]);
+            int realHour = Int32.Parse(realDate1[1].Split(':')[0]);
+            int realMin = Int32.Parse(realDate1[1].Split(':')[1]);
+            //dozvoluva prikaz samo na idni termini (ili onie koi pominale vo izminatite 30 min)
+            if (User.Identity.Name==item.UserName && (selectedYear > realYear || selectedYear == realYear && (selectedMonth > realMonth || selectedMonth == realMonth && (selectedDay > realDay || selectedDay == realDay && (selectedHour > realHour || selectedHour == realHour && selectedMin >= (realMin - 30))))))
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date.ToString().Split(' ')[0])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.selectedTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActionTime)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Детали", "Details", new { id = item.Id }) |
+                        <button data-unavailable-id="@item.Id" class="btn-link js-delete">Откажи</button>
+
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#myAppTable").DataTable();
+            $("#myAppTable .js-delete").on("click", function () {
+                var button = $(this);
+                bootbox.confirm("Дали сакате да го откажете овој термин?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/Unavailables1/" + button.attr("data-unavailable-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+    </script>
+}
